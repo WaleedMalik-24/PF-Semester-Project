@@ -23,6 +23,72 @@ int main() {
         cout << "4. Enter 'stop' to stop the system.\n";
         cout << "Your choice: ";
         cin >> command;
+        // Stop the system
+       if (command == "stop") {
+           cout << "System shutting down. Thank you for using the Airline Reservation System!\n";
+           break;
+       }
+ 
+       // Display seat status
+       if (command == "status") {
+           cout << "Current seat availability:\n";
+           cout << "Economy: " << economySeats << "\n";
+           cout << "Business: " << businessSeats << "\n";
+           cout << "VIP: " << vipSeats << "\n";
+           continue;
+       }
+ 
+       // Book a ticket
+       if (command == "book") {
+           string travelClass;
+           int distance;
+ 
+           cout << "Enter travel class (economy, business, vip): ";
+           cin >> travelClass;
+ 
+           if (travelClass != "economy" && travelClass != "business" && travelClass != "vip") {
+               cout << "Invalid travel class. Please choose economy, business, or vip.\n";
+               continue;
+           }
+ 
+           cout << "Enter travel distance (in km): ";
+           cin >> distance;
+ 
+           if (distance <= 0) {
+               cout << "Invalid distance. Please enter a positive value.\n";
+               continue;
+           }
+ 
+           // Booking logic
+           if (travelClass == "economy") {
+               if (economySeats == 0) {
+                   cout << "Economy class is fully booked!\n";
+                   continue;
+               }
+               economySeats--;
+               cout << "Economy class ticket booked. Fare: $" << distance * 0.5 << "\n";
+           } else if (travelClass == "business") {
+               if (businessSeats == 0) {
+                   cout << "Business class is fully booked!\n";
+                   continue;
+               }
+               businessSeats--;
+               cout << "Business class ticket booked. Fare: $" << distance * 1.0 << "\n";
+           } else if (travelClass == "vip") {
+               if (vipSeats == 0) {
+                   cout << "VIP class is fully booked. Allocating economy seat instead.\n";
+                   if (economySeats == 0) {
+                       cout << "No economy seats available. Cannot book ticket.\n";
+                       continue;
+                   }
+                   economySeats--;
+               } else {
+                   vipSeats--;
+               }
+               cout << "VIP class ticket booked. Fare: $" << distance * 2.0 << "\n";
+           }
+           continue;
+       }
         
         return 0;
     }
