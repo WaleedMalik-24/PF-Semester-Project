@@ -88,8 +88,46 @@ int main() {
                cout << "VIP class ticket booked. Fare: $" << distance * 2.0 << "\n";
            }
            continue;
+       }// Cancel a ticket
+       if (command == "cancel") {
+           string travelClass;
+ 
+           cout << "Enter travel class to cancel (economy, business, vip): ";
+           cin >> travelClass;
+ 
+           if (travelClass == "economy") {
+               if (economySeats >= 30) {
+                   cout << "No tickets booked in economy class to cancel.\n";
+                   continue;
+               }
+               economySeats++;
+               cout << "Economy class ticket canceled.\n";
+           } else if (travelClass == "business") {
+               if (businessSeats >= 15) {
+                   cout << "No tickets booked in business class to cancel.\n";
+                   continue;
+               }
+               businessSeats++;
+               cout << "Business class ticket canceled.\n";
+           } else if (travelClass == "vip") {
+               if (vipSeats >= 5) {
+                   cout << "No tickets booked in VIP class to cancel.\n";
+                   continue;
+               }
+               vipSeats++;
+               cout << "VIP class ticket canceled.\n";
+           } else {
+               cout << "Invalid travel class. Please choose economy, business, or vip.\n";
+           }
+           continue;
        }
+ 
+       // Invalid command
+       cout << "Invalid command. Please try again.\n";
+   }
+ 
+
         
         return 0;
     }
-}
+
