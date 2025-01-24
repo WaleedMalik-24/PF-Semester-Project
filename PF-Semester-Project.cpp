@@ -223,6 +223,91 @@ void display_sorted() {
         cout << student_roll[i] << " - " << student_name[i] << " - Balance: $" << fixed << setprecision(2) << student_balance[i] << endl;
     }
 }
+// Find a student by their roll number
+int find_student(int roll) {
+    for (int i = 0; i < student_count; i++) {
+        if (student_roll[i] == roll) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+// Find a book by its ISBN
+int find_book(int isbn) {
+    for (int i = 0; i < book_count; i++) {
+        if (book_isbn[i] == isbn) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+// Add a new book to the system
+void add_book() {
+    if (book_count >= MAX_BOOKS) {
+        cout << "Book limit reached. Cannot add more books.\n";
+        return;
+    }
+
+    cout << "Enter book title: ";
+    cin.ignore();
+    cin.getline(book_title[book_count], MAX_NAME_LENGTH);
+
+    cout << "Enter book author: ";
+    cin.getline(book_author[book_count], MAX_NAME_LENGTH);
+
+    int isbn;
+    cout << "Enter ISBN: ";
+    cin >> isbn;
+
+    if (cin.fail()) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid ISBN!\n";
+        return;
+    }
+
+    if (find_book(isbn) != -1) {
+        cout << "A book with this ISBN already exists.\n";
+        return;
+    }
+
+    book_isbn[book_count] = isbn;
+    book_available[book_count] = true;
+    book_count++;
+}
+
+// Edit an existing book's details
+void edit_book() {
+    int isbn;
+    cout << "Enter ISBN of the book to edit: ";
+    cin >> isbn;
+
+    if (cin.fail()) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid ISBN!\n";
+        return;
+    }
+
+    int index = find_book(isbn);
+    if (index == -1) {
+        cout << "Book not found.\n";
+        return;
+    }
+
+    cout << "Current book title: " << book_title[index] << endl;
+    cout << "Enter new book title: ";
+    cin.ignore();
+    cin.getline(book_title[index], MAX_NAME_LENGTH);
+
+    cout << "Current book author: " << book_author[index] << endl;
+    cout << "Enter new book author: ";
+    cin.getline(book_author[index], MAX_NAME_LENGTH);
+
+    cout << "Book details updated.\n";
+}
 
 
 
