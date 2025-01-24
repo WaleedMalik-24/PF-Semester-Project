@@ -78,4 +78,87 @@ int main() {
                     }
                     default: cout << "Invalid option!\n"; break;
                 }
+  } else {
+                int roll;
+                cout << "Enter roll number: ";
+                cin >> roll;
+
+                int index = find_student(roll);
+                if (index == -1) {
+                    cout << "Student not found. Create account? (1 to create): ";
+                    cin >> option;
+                    if (option == 1) {
+                        create_account();
+                    }
+                } else {
+                    cout << "Student Menu:\n1. Display Account\n2. Deposit Amount\n3. Issue Book\nChoose option: ";
+                    cin >> option;
+
+                    switch (option) {
+                        case 1: display(roll); break;
+                        case 2: {
+                            double amount;
+                            cout << "Enter amount to deposit: ";
+                            cin >> amount;
+                            deposit_amount(roll, amount);
+                            break;
+                        }
+                        case 3: issue_item(roll); break;
+                        default: cout << "Invalid option!\n"; break;
+                    }
+                }
+            }
+        } else {
+            cout << "Incorrect password!\n";
+        }
+    }
+
+    return 0;
+}
+
+void create_account() {
+    if (student_count >= MAX_STUDENTS) {
+        cout << "Student limit reached. Cannot create more accounts.\n";
+        return;
+    }
+
+    int roll;
+    cout << "Enter roll number: ";
+    cin >> roll;
+
+    if (find_student(roll) != -1) {
+        cout << "Account already exists for this roll number.\n";
+        return;
+    }
+
+    student_roll[student_count] = roll;
+    cout << "Enter student name: ";
+    cin.ignore();
+    cin.getline(student_name[student_count], MAX_NAME_LENGTH);
+
+    double initial_deposit;
+    cout << "Enter initial deposit: ";
+    cin >> initial_deposit;
+
+    if (initial_deposit < 50) {
+        cout << "Initial deposit must be at least $50.\n";
+        return;
+    }
+
+    student_balance[student_count] = initial_deposit - 20 - 30; // Account opening and security deposit
+    student_count++;
+}
+
+void display(int roll) {
+    int index = find_student(roll);
+    if (index == -1) {
+        cout << "Student not found.\n";
+        return;
+    }
+    cout << "Roll No: " << student_roll[index] << endl;
+    cout << "Name: " << student_name[index] << endl;
+    cout << "Balance: $" << fixed << setprecision(2) << student_balance[index] << endl;
+}
+
+
 
