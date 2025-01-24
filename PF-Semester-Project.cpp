@@ -159,6 +159,70 @@ void display(int roll) {
     cout << "Name: " << student_name[index] << endl;
     cout << "Balance: $" << fixed << setprecision(2) << student_balance[index] << endl;
 }
+void deposit_amount(int roll, double amount) {
+    int index = find_student(roll);
+    if (index == -1) {
+        cout << "Student not found.\n";
+        return;
+    }
+
+    student_balance[index] += amount;
+    cout << "New balance: $" << fixed << setprecision(2) << student_balance[index] << endl;
+}
+
+void issue_item(int roll) {
+    int index = find_student(roll);
+    if (index == -1) {
+        cout << "Student not found.\n";
+        return;
+    }
+
+    cout << "Available books:\n";
+    for (int i = 0; i < book_count; i++) {
+        if (book_available[i]) {
+            cout << i + 1 << ". " << book_title[i] << " by " << book_author[i] << " (ISBN: " << book_isbn[i] << ")\n";
+        }
+    }
+
+    int choice;
+    cout << "Enter book number to issue (0 to cancel): ";
+    cin >> choice;
+
+    if (cin.fail() || choice < 0 || choice > book_count) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid choice!\n";
+        return;
+    }
+
+    if (choice == 0) {
+        return;
+    }
+
+    if (book_available[choice - 1] && student_balance[index] >= 2) {
+        book_available[choice - 1] = false;
+        student_balance[index] -= 2;
+        cout << "Book issued successfully. New balance: $" << fixed << setprecision(2) << student_balance[index] << endl;
+    } else {
+        cout << "Cannot issue the book. Insufficient balance or book is unavailable.\n";
+    }
+}
+
+void display_sorted() {
+    for (int i = 0; i < student_count; i++) {
+        for (int j = i + 1; j < student_count; j++) {
+            if (student_roll[i] > student_roll[j]) {
+                swap(student_roll[i], student_roll[j]);
+                swap(student_balance[i], student_balance[j]);
+                swap(student_name[i], student_name[j]);
+            }
+        }
+    }
+
+    for (int i = 0; i < student_count; i++) {
+        cout << student_roll[i] << " - " << student_name[i] << " - Balance: $" << fixed << setprecision(2) << student_balance[i] << endl;
+    }
+}
 
 
 
