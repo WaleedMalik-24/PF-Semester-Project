@@ -309,5 +309,59 @@ void edit_book() {
     cout << "Book details updated.\n";
 }
 
+// View all books in the system
+void view_books() {
+    for (int i = 0; i < book_count; i++) {
+        cout << "Title: " << book_title[i] << endl;
+        cout << "Author: " << book_author[i] << endl;
+        cout << "ISBN: " << book_isbn[i] << endl;
+        cout << "Available: " << (book_available[i] ? "Yes" : "No") << endl << endl;
+    }
+}
+
+// Save student and book data to text files
+void save_data() {
+    ofstream student_file("students.txt");
+    ofstream book_file("books.txt");
+
+    if (!student_file.is_open() || !book_file.is_open()) {
+        cout << "Error opening files for saving data!\n";
+        return;
+    }
+
+    // Save student data
+    student_file << student_count << endl;
+    for (int i = 0; i < student_count; i++) {
+        student_file << student_roll[i] << endl;
+        student_file << student_name[i] << endl;
+        student_file << student_balance[i] << endl;
+    }
+
+    // Save book data
+    book_file << book_count << endl;
+    for (int i = 0; i < book_count; i++) {
+        book_file << book_title[i] << endl;
+        book_file << book_author[i] << endl;
+        book_file << book_isbn[i] << endl;
+        book_file << book_available[i] << endl;
+    }
+
+    student_file.close();
+    book_file.close();
+}
+
+// Load student and book data from text files
+void load_data() {
+    ifstream student_file("students.txt");
+    ifstream book_file("books.txt");
+
+    if (!student_file.is_open() || !book_file.is_open()) {
+        cout << "Error opening files for loading data!\n";
+        return;
+    }
+
+   
+
+
 
 
